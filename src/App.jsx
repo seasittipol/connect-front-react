@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import './App.css'
-import RegisterForm from './layout/RegisterForm'
 import LoginForm from './layout/LoginForm'
+import useAuth from './hooks/useAuth'
 
 function App() {
+  const { user, setUser } = useAuth
   const [dark, setDark] = useState(false)
 
   return (

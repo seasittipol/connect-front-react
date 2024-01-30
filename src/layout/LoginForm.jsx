@@ -1,10 +1,13 @@
 import { useState } from 'react'
+import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 
 function LoginForm() {
     const [input, setInput] = useState({
         code: '',
         password: '',
     })
+    const { setUser } = useAuth()
 
     const hdlChangeInput = (e) => {
         console.log(e.target.name);
@@ -16,8 +19,19 @@ function LoginForm() {
     const hdlSubmit = async (e) => {
         try {
             e.preventDefault()
-            const rs = await axios.post('http://localhost:8888/auth/login', input)
-            console.log(rs);
+            let codeFor = (input.code.toLowerCase().startsWith('t')) ? 't_code' : 's_code'
+            const output = {
+                [codeFor]: input.code,
+                password: input.password
+            }
+            const rs = await axios.post('http://localhost:8888/auth/login', output)
+            // if (rs.status === 200) {make your solve}
+            console.log(rs.data);
+            localStorage.setItem('token', rs.data.token)
+            const rs1 = await axios.get('http://localhost:8888/auth/me', {
+                headers: { Authorization: `Bearer ${rs.data.token}` }
+            })
+            setUser(rs1.data.user)
         } catch (err) {
             console.log(err);
         }
@@ -36,7 +50,7 @@ function LoginForm() {
                             <label className="label">
                                 <span className="label-text font-bold">Teacher or Student Code</span>
                             </label>
-                            <input type="text" placeholder="กรอกรหัสนักศึกษา" className="input input-bordered" required name='code' value={input.code} onChange={hdlChangeInput} />
+                            <input type="text" placeholder="กรอกรหัสนักศึกษา" className="input input-bordered" required name='code' value={input.code} onChange={hdlChangeInput} pattern='^[st]\d{3}$' />
                         </div>
                         <div className="form-control">
                             <label className="label">
