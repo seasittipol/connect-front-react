@@ -8,13 +8,8 @@ function App() {
   // console.log(user);
   return (
     <div className='min-h-screen flex flex-col gap-3' data-theme={dark ? "dark" : "cupcake"}>
-      <h1 className="text-3xl font-bold underline text-pink-700">
-        Hello , {user?.firstname}
-      </h1>
-      <input type="checkbox" className="toggle" checked={dark} onChange={e => { setDark(e.target.checked) }} />
-      <hr />
-
       <AppRouter />
+      <input type="checkbox" className="toggle" checked={dark} onChange={e => { setDark(e.target.checked) }} />
     </div>
   )
 }
