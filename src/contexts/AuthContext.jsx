@@ -8,7 +8,7 @@ const AuthContext = createContext()
 import React from 'react'
 
 function AuthContextProvider(props) {
-    const [user, setUser] = useState({ id: 1 })
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
         const run = async () => {
@@ -19,7 +19,7 @@ function AuthContextProvider(props) {
                 const rs = await axios.get('http://localhost:8888/auth/me', {
                     headers: { Authorization: `Bearer ${token}` }
                 })
-                console.log(rs.data);
+                // console.log(rs.data);
                 setUser(rs.data.user)
             } catch (err) {
                 console.log(err);

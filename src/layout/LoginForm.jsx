@@ -32,6 +32,7 @@ function LoginForm() {
                 headers: { Authorization: `Bearer ${rs.data.token}` }
             })
             setUser(rs1.data.user)
+            // console.log(rs1.data.user);
         } catch (err) {
             console.log(err);
         }
